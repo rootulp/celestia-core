@@ -96,6 +96,7 @@ Note the context/background should be written in the present tense.
 - [ADR-038: Non-Zero-Start-Height](./adr-038-non-zero-start-height.md)
 - [ADR-041: Proposer-Selection-via-ABCI](./adr-041-proposer-selection-via-abci.md)
 - [ADR-045: ABCI-Evidence](./adr-045-abci-evidence.md)
+- [ADR-050: Improved-Trusted-Peering](./adr-050-improved-trusted-peering.md)
 - [ADR-057: RPC](./adr-057-RPC.md)
 - [ADR-069: Node Initialization](./adr-069-flexible-node-initialization.md)
 - [ADR-071: Proposer-Based Timestamps](adr-071-proposer-based-timestamps.md)
