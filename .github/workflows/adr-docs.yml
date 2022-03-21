@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2.3.4
-        with:
 
       - name: List all files
         working-directory: ./docs/architecture
