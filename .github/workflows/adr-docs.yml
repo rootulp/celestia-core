@@ -1,0 +1,33 @@
+name: ADR docs
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "**.md"
+  pull_request:
+    branches: [master]
+    paths:
+      - "**.md"
+
+jobs:
+  build:
+    name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2.3.4
+        with:
+
+      - name: List all files
+        working-directory: ./docs/architecture
+        run: ls
+
+      - name: List path
+        working-directory: ./docs/architecture
+        run: pwd
+
+      - name: Check that all ADRs are linked in docs/architecture/README.md
+        working-directory: ./docs/architecture
+        run: |
+          find .  -regex '\./adr-[0-9][0-9][0-9].*.md$' -type f | xargs -I '{}' bash -c "grep -q {} README.md && true || (echo 'Missing ADR in README.md: {}'; (exit 1))"
