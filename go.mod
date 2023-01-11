@@ -8,7 +8,7 @@ require (
 	github.com/btcsuite/btcd v0.22.0-beta
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 	github.com/celestiaorg/nmt v0.8.0
-	github.com/celestiaorg/rsmt2d v0.3.0
+	github.com/celestiaorg/rsmt2d v0.8.0
 	github.com/fortytw2/leaktest v1.3.0
 	github.com/go-kit/kit v0.12.0
 	github.com/gogo/protobuf v1.3.2
@@ -37,7 +37,7 @@ require (
 	github.com/vektra/mockery/v2 v2.9.4
 	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272
 	golang.org/x/net v0.0.0-20211005001312-d4b1ae081e3b
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+	golang.org/x/sync v0.0.0-20220929204114-8fcdb60fdcc0
 	google.golang.org/grpc v1.41.0
 	pgregory.net/rapid v0.4.7
 )
