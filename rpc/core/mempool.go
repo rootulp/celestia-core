@@ -95,8 +95,8 @@ func BroadcastTxCommit(ctx *rpctypes.Context, tx types.Tx) (*ctypes.ResultBroadc
 		}
 	}, mempl.TxInfo{})
 	if err != nil {
-		env.Logger.Error("Error on broadcastTxCommit", "err", err)
-		return nil, fmt.Errorf("error on broadcastTxCommit: %v", err)
+		env.Logger.Error("[rootulp] Error on broadcastTxCommit", "err", err)
+		return nil, fmt.Errorf("[rootulp] error on broadcastTxCommit: %v", err)
 	}
 	select {
 	case <-ctx.Context().Done():
