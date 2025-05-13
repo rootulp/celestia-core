@@ -174,6 +174,7 @@ func (store dbStore) loadState(key []byte) (state State, err error) {
 	}
 
 	sm, err := FromProto(sp)
+	fmt.Printf("inside loadState sm: %v\n", sm)
 	if err != nil {
 		return state, err
 	}
@@ -183,6 +184,7 @@ func (store dbStore) loadState(key []byte) (state State, err error) {
 // Save persists the State, the ValidatorsInfo, and the ConsensusParamsInfo to the database.
 // This flushes the writes (e.g. calls SetSync).
 func (store dbStore) Save(state State) error {
+	fmt.Printf("save state invoked with state.Version.Consensus.App: %v\n", state.Version.Consensus.App)
 	return store.save(state, stateKey)
 }
 

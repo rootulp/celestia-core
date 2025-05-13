@@ -365,16 +365,19 @@ func (h *Handshaker) ReplayBlocksWithContext(
 				return nil, fmt.Errorf("validator set is nil in genesis and still empty after InitChain")
 			}
 
+			fmt.Printf("Before using consensus params: %v\n", state.Version.Consensus.App)
 			if res.ConsensusParams != nil {
 				state.ConsensusParams = state.ConsensusParams.Update(res.ConsensusParams)
 				state.Version.Consensus.App = state.ConsensusParams.Version.App
 			}
+			fmt.Printf("After using consensus params: %v\n", state.Version.Consensus.App)
 
 			// update timeouts based on the InitChainSync response
 			state.TimeoutCommit = res.TimeoutInfo.TimeoutCommit
 			state.TimeoutPropose = res.TimeoutInfo.TimeoutPropose
 			// We update the last results hash with the empty hash, to conform with RFC-6962.
 			state.LastResultsHash = merkle.HashFromByteSlices(nil)
+			fmt.Printf("ReplayBlocksWithContext is attempting to save state with consensus app version: %v\n", state.Version.Consensus.App)
 			if err := h.stateStore.Save(state); err != nil {
 				return nil, err
 			}

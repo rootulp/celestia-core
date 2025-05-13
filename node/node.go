@@ -371,13 +371,18 @@ func NewNodeWithContext(ctx context.Context,
 			return nil, err
 		}
 
+		fmt.Printf("before state store load %v\n", state)
+		fmt.Printf("before state store load state.Version.Consensus.App %v\n", state.Version.Consensus.App)
 		// Reload the state. It will have the Version.Consensus.App set by the
 		// Handshake, and may have other modifications as well (ie. depending on
 		// what happened during block replay).
 		state, err = stateStore.Load()
+		fmt.Printf("after state store load state %v\n", state)
+		fmt.Printf("after state store load state.Version.Consensus.App %v\n", state.Version.Consensus.App)
 		if err != nil {
 			return nil, fmt.Errorf("cannot load state: %w", err)
 		}
+		logger.Info("Loaded state after doHandshake", "height", state.LastBlockHeight, "app_version", state.Version.Consensus.App, "timeout_commit", state.TimeoutCommit, "timeout_propose", state.TimeoutPropose)
 	}
 
 	// Determine whether we should do block sync. This must happen after the handshake, since the
