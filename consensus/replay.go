@@ -362,10 +362,14 @@ func (h *Handshaker) ReplayBlocksWithContext(
 				return nil, fmt.Errorf("validator set is nil in genesis and still empty after InitChain")
 			}
 
+			fmt.Printf("Before update state.Version.Consensus.App: %v\n", state.Version.Consensus.App)
 			if res.ConsensusParams != nil {
+				fmt.Printf("Before update state.ConsensusParams.Version.AppVersion: %v\n", state.ConsensusParams.Version.AppVersion)
 				state.ConsensusParams = types.UpdateConsensusParams(state.ConsensusParams, res.ConsensusParams)
+				fmt.Printf("After update state.ConsensusParams.Version.AppVersion: %v\n", state.ConsensusParams.Version.AppVersion)
 				state.Version.Consensus.App = state.ConsensusParams.Version.AppVersion
 			}
+			fmt.Printf("After update state.Version.Consensus.App: %v\n", state.Version.Consensus.App)
 
 			// update timeouts based on the InitChainSync response
 			state.TimeoutCommit = res.Timeouts.TimeoutCommit
