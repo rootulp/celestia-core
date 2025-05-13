@@ -202,6 +202,7 @@ func logNodeStartupInfo(state sm.State, pubKey crypto.PubKey, logger, consensusL
 		"p2p", version.P2PProtocol,
 		"commit_hash", version.TMGitCommitHash,
 	)
+	logger.Info("State", "state.Version.Consensus.Version.App", state.Version.Consensus.App)
 
 	// If the state and software differ in block version, at least log it.
 	if state.Version.Consensus.Block != version.BlockProtocol {

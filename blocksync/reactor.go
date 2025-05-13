@@ -75,6 +75,7 @@ type Reactor struct {
 func NewReactor(state sm.State, blockExec *sm.BlockExecutor, store *store.BlockStore,
 	blockSync bool, metrics *Metrics, offlineStateSyncHeight int64,
 ) *Reactor {
+	fmt.Printf("NewReactor state %v state.ConsensusParams.Version.App %v\n", state, state.ConsensusParams.Version.App)
 	return NewReactorWithAddr(state, blockExec, store, blockSync, nil, metrics, offlineStateSyncHeight)
 }
 

@@ -245,7 +245,6 @@ func (h *Handshaker) Handshake(proxyApp proxy.AppConns) (string, error) {
 
 // HandshakeWithContext is cancellable version of Handshake
 func (h *Handshaker) HandshakeWithContext(ctx context.Context, proxyApp proxy.AppConns) (string, error) {
-
 	// Handshake is done via ABCI Info on the query conn.
 	res, err := proxyApp.Query().Info(ctx, proxy.RequestInfo)
 	if err != nil {
@@ -262,7 +261,7 @@ func (h *Handshaker) HandshakeWithContext(ctx context.Context, proxyApp proxy.Ap
 		"height", blockHeight,
 		"hash", log.NewLazySprintf("%X", appHash),
 		"software-version", res.Version,
-		"protocol-version", res.AppVersion,
+		"app-version", res.AppVersion,
 	)
 
 	// Only set the version if there is no existing state.
@@ -279,7 +278,7 @@ func (h *Handshaker) HandshakeWithContext(ctx context.Context, proxyApp proxy.Ap
 	}
 
 	h.logger.Info("Completed ABCI Handshake - CometBFT and App are synced",
-		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash))
+		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash), "appVersion", res.AppVersion)
 
 	// TODO: (on restart) replay mempool
 
