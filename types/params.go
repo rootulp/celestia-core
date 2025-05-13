@@ -314,7 +314,9 @@ func (params ConsensusParams) Update(params2 *cmtproto.ConsensusParams) Consensu
 		res.Validator.PubKeyTypes = append([]string{}, params2.Validator.PubKeyTypes...)
 	}
 	if params2.Version != nil {
+		fmt.Printf("Before update res.Version.App: %v\n", res.Version.App)
 		res.Version.App = params2.Version.App
+		fmt.Printf("After update res.Version.App: %v\n", res.Version.App)
 	}
 	if params2.Abci != nil {
 		res.ABCI.VoteExtensionsEnableHeight = params2.Abci.GetVoteExtensionsEnableHeight()
