@@ -367,7 +367,9 @@ func (h *Handshaker) ReplayBlocksWithContext(
 
 			fmt.Printf("Before using consensus params: %v\n", state.Version.Consensus.App)
 			if res.ConsensusParams != nil {
+				fmt.Printf("Before update state.ConsensusParams.Version.App: %v\n", state.ConsensusParams.Version.App)
 				state.ConsensusParams = state.ConsensusParams.Update(res.ConsensusParams)
+				fmt.Printf("After update state.ConsensusParams.Version.App: %v\n", state.ConsensusParams.Version.App)
 				state.Version.Consensus.App = state.ConsensusParams.Version.App
 			}
 			fmt.Printf("After using consensus params: %v\n", state.Version.Consensus.App)
