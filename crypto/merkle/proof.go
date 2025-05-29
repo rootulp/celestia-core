@@ -95,16 +95,7 @@ func (sp *Proof) computeRootHash() ([]byte, error) {
 // String implements the stringer interface for Proof.
 // It is a wrapper around StringIndented.
 func (sp *Proof) String() string {
-	return sp.StringIndented("")
-}
-
-// StringIndented generates a canonical string representation of a Proof.
-func (sp *Proof) StringIndented(indent string) string {
-	return fmt.Sprintf(`Proof{
-%s  Aunts: %X
-%s}`,
-		indent, sp.Aunts,
-		indent)
+	return fmt.Sprintf("Proof{Total: %d, Index: %d, LeafHash: %X, Aunts: %X}", sp.Total, sp.Index, sp.LeafHash, sp.Aunts)
 }
 
 // ValidateBasic performs basic validation.

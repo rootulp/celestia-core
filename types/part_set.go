@@ -60,24 +60,8 @@ func (part *Part) ValidateBasic() error {
 }
 
 // String returns a string representation of Part.
-//
-// See StringIndented.
 func (part *Part) String() string {
-	return part.StringIndented("")
-}
-
-// StringIndented returns an indented Part.
-//
-// See merkle.Proof#StringIndented
-func (part *Part) StringIndented(indent string) string {
-	return fmt.Sprintf(`Part{#%v
-%s  Bytes: %X...
-%s  Proof: %v
-%s}`,
-		part.Index,
-		indent, cmtbytes.Fingerprint(part.Bytes),
-		indent, part.Proof.StringIndented(indent+"  "),
-		indent)
+	return fmt.Sprintf("Part{Index: %v, Bytes: %X, Proof: %v}", part.Index, part.Bytes, part.Proof.String())
 }
 
 func (part *Part) ToProto() (*cmtproto.Part, error) {
