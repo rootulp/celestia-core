@@ -2017,6 +2017,7 @@ func (cs *State) addProposalBlockPart(msg *BlockPartMessage, peerID p2p.ID) (add
 		return false, nil
 	}
 
+	cs.Logger.Info("adding part to proposal block parts", "part", part, "height", height, "round", round)
 	added, err = cs.ProposalBlockParts.AddPart(part)
 	if err != nil {
 		if errors.Is(err, types.ErrPartSetInvalidProof) || errors.Is(err, types.ErrPartSetUnexpectedIndex) {

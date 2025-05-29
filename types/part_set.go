@@ -306,6 +306,8 @@ func (ps *PartSet) AddPart(part *Part) (bool, error) {
 
 	// Check hash proof
 	if err := part.Proof.Verify(ps.Hash(), part.Bytes); err != nil {
+		fmt.Printf("partSet %#v\n", ps)
+		fmt.Printf("part %#v\n", part)
 		return false, fmt.Errorf("%w: part.Proof.Verify(ps.Hash(), part.Bytes) = %v", ErrPartSetInvalidProof, err)
 	}
 
