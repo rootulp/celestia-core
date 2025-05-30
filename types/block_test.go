@@ -1004,3 +1004,35 @@ func TestBlob(t *testing.T) {
 		assert.Equal(t, want, got)
 	})
 }
+
+func TestMakePartSet(t *testing.T) {
+	type testCase struct {
+		block   *Block
+		partSet *PartSet
+		err     error
+	}
+	testCases := []testCase{
+		{
+			block: &Block{
+				Header: Header{
+					Height: 1,
+				},
+			},
+			partSet: &PartSet{
+				total:         1,
+				hash:          []uint8{0x4f, 0xa, 0xdd, 0xd9, 0x4c, 0x9e, 0xec, 0x60, 0x9e, 0x53, 0x1e, 0xaa, 0x79, 0xf8, 0xea, 0x94, 0xc4, 0x22, 0x86, 0xef, 0xe, 0x48, 0xdb, 0x97, 0xa1, 0xb0, 0x9f, 0x12, 0xc8, 0xe3, 0x7a, 0x38},
+				parts:         []*Part{},
+				partsBitArray: bits.NewBitArray(1),
+				count:         0x1,
+				byteSize:      27,
+			},
+			err: nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		partSet, err := tc.block.MakePartSet(BlockPartSizeBytes)
+		assert.Equal(t, tc.err, err)
+		assert.Equal(t, tc.partSet, partSet)
+	}
+}
