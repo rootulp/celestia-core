@@ -269,11 +269,13 @@ func (txi *TxIndex) Search(ctx context.Context, q *query.Query) ([]*abci.TxResul
 
 	// for all other conditions
 	for i, c := range conditions {
+		fmt.Printf("i: %d, c: %+v\n", i, c)
 		if intInSlice(i, skipIndexes) {
 			continue
 		}
 
 		if !hashesInitialized {
+			fmt.Printf("hashes are not initialized\n")
 			filteredHashes = txi.match(ctx, c, startKeyForCondition(c, heightInfo.height), filteredHashes, true, heightInfo)
 			hashesInitialized = true
 
@@ -283,20 +285,24 @@ func (txi *TxIndex) Search(ctx context.Context, q *query.Query) ([]*abci.TxResul
 				break
 			}
 		} else {
+			fmt.Printf("hashes are initialized\n")
 			filteredHashes = txi.match(ctx, c, startKeyForCondition(c, heightInfo.height), filteredHashes, false, heightInfo)
 		}
 	}
 
+	fmt.Printf("filteredHashes: %+v\n", filteredHashes)
 	results := make([]*abci.TxResult, 0, len(filteredHashes))
 	resultMap := make(map[string]struct{})
 RESULTS_LOOP:
 	for _, h := range filteredHashes {
-
+		fmt.Printf("filteredHashes: %+v\n", filteredHashes)
+		fmt.Printf("h: %s\n", h)
 		res, err := txi.Get(h)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get Tx{%X}: %w", h, err)
 		}
 		hashString := string(h)
+		fmt.Printf("hashString: %s\n", hashString)
 		if _, ok := resultMap[hashString]; !ok {
 			resultMap[hashString] = struct{}{}
 			results = append(results, res)
@@ -308,7 +314,7 @@ RESULTS_LOOP:
 		default:
 		}
 	}
-
+	fmt.Printf("results: %+v\n", results)
 	return results, nil
 }
 
@@ -323,13 +329,16 @@ func lookForHash(conditions []syntax.Condition) (hash []byte, ok bool, err error
 }
 
 func (*TxIndex) setTmpHashes(tmpHeights map[string][]byte, key, value []byte) {
+	fmt.Printf("setTmpHashes key: %s, value: %s\n", key, value)
 	eventSeq := extractEventSeqFromKey(key)
+	fmt.Printf("eventSeq: %s\n", eventSeq)
 
 	// Copy the value because the iterator will be reused.
 	valueCopy := make([]byte, len(value))
 	copy(valueCopy, value)
 
 	tmpHeights[string(valueCopy)+eventSeq] = valueCopy
+	fmt.Printf("tmpHeights: %+v\n", tmpHeights)
 }
 
 // match returns all matching txs by hash that meet a given condition and start
@@ -345,9 +354,11 @@ func (txi *TxIndex) match(
 	firstRun bool,
 	heightInfo HeightInfo,
 ) map[string][]byte {
+	fmt.Printf("match c: %+v, startKeyBz: %s, filteredHashes: %+v, firstRun: %t, heightInfo: %+v\n", c, startKeyBz, filteredHashes, firstRun, heightInfo)
 	// A previous match was attempted but resulted in no matches, so we return
 	// no matches (assuming AND operand).
 	if !firstRun && len(filteredHashes) == 0 {
+		fmt.Printf("filteredHashes is empty, returning\n")
 		return filteredHashes
 	}
 
@@ -417,6 +428,7 @@ func (txi *TxIndex) match(
 			if !withinBounds {
 				continue
 			}
+			fmt.Printf("exists key: %s, value: %s\n", key, it.Value())
 			txi.setTmpHashes(tmpHashes, key, it.Value())
 
 			// Potentially exit early.

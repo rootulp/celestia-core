@@ -289,6 +289,10 @@ func TestBlockIndexerMulti(t *testing.T) {
 			q:       query.MustCompile("end_event.baz = 100"),
 			results: []int64{},
 		},
+		"query condition exact match": {
+			q:       query.MustCompile("end_event.foo = 300 AND end_event.bar = 400"),
+			results: []int64{2},
+		},
 	}
 
 	for name, tc := range testCases {

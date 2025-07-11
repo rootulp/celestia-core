@@ -83,10 +83,12 @@ func (env *Environment) TxSearch(
 		return nil, errors.New("maximum query length exceeded")
 	}
 
+	fmt.Printf("query: %s\n", query)
 	q, err := cmtquery.New(query)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("q: %+v\n", q)
 
 	results, err := env.TxIndexer.Search(ctx.Context(), q)
 	if err != nil {
