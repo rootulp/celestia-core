@@ -728,20 +728,26 @@ func updateState(
 	// Update the params with the latest abciResponse.
 	nextParams := state.ConsensusParams
 	lastHeightParamsChanged := state.LastHeightConsensusParamsChanged
+	fmt.Printf("updateState, state.ConsensusParams=%+v\n", state.ConsensusParams)
 	if abciResponse.ConsensusParamUpdates != nil {
+		fmt.Printf("updateState, abciResponse.ConsensusParamUpdates=%+v\n", abciResponse.ConsensusParamUpdates)
 		// NOTE: must not mutate state.ConsensusParams
 		nextParams = state.ConsensusParams.Update(abciResponse.ConsensusParamUpdates)
 		err := nextParams.ValidateBasic()
 		if err != nil {
+			fmt.Printf("updateState, error validating new consensus params: %v\n", err)
 			return state, fmt.Errorf("validating new consensus params: %w", err)
 		}
 
 		err = state.ConsensusParams.ValidateUpdate(abciResponse.ConsensusParamUpdates, header.Height)
 		if err != nil {
+			fmt.Printf("updateState, error validating new consensus params: %v\n", err)
 			return state, fmt.Errorf("updating consensus params: %w", err)
 		}
 
+		fmt.Printf("updateState, nextParams.Version.App=%d\n", nextParams.Version.App)
 		state.Version.Consensus.App = nextParams.Version.App
+		fmt.Printf("updateState, set state.Version.Consensus.App to: %d\n", state.Version.Consensus.App)
 
 		// Change results from this height but only applies to the next height.
 		lastHeightParamsChanged = header.Height + 1
