@@ -17,6 +17,7 @@ func validateBlock(state State, block *types.Block) error {
 	if err := block.ValidateBasic(); err != nil {
 		return err
 	}
+	fmt.Printf("validateBlock: block.Version.App=%d, state.Version.Consensus.App=%d\n", block.Version.App, state.Version.Consensus.App)
 
 	// Validate basic info.
 	if block.Version.App != state.Version.Consensus.App ||

@@ -498,10 +498,12 @@ FOR_LOOP:
 			// TODO(sergio): Should we also validate against the extended commit?
 			err = state.Validators.VerifyCommitLight(
 				chainID, firstID, first.Height, second.LastCommit)
+			fmt.Printf("blocksync/reactor.go: error after VerifyCommitLight: %v\n", err)
 
 			if err == nil {
 				// validate the block before we persist it
 				err = bcR.blockExec.ValidateBlock(state, first)
+				fmt.Printf("blocksync/reactor.go: error after ValidateBlock: %v\n", err)
 			}
 
 			if err == nil {
@@ -514,6 +516,7 @@ FOR_LOOP:
 				// set of transactions that would cause a different app hash and
 				// thus cause this node to panic.
 				stateMachineValid, err = bcR.blockExec.ProcessProposal(first, state.InitialHeight)
+				fmt.Printf("blocksync/reactor.go: error after ProcessProposal: %v\n", err)
 				if !stateMachineValid {
 					err = fmt.Errorf("application has rejected syncing block (%X) at height %d, %w", first.Hash(), first.Height, err)
 				}
