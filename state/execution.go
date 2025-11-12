@@ -705,6 +705,7 @@ func updateState(
 	abciResponse *abci.ResponseFinalizeBlock,
 	validatorUpdates []*types.Validator,
 ) (State, error) {
+	fmt.Printf("updateState: header.Version.App=%d, state.Version.Consensus.App=%d\n", header.Version.App, state.Version.Consensus.App)
 
 	// Copy the valset so we can apply changes from EndBlock
 	// and update s.LastValidators and s.Validators.
